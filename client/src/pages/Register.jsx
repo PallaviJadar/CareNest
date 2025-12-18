@@ -64,7 +64,6 @@ const Register = () => {
                         <select name="role" value={role} onChange={onChange} placeholder=" " style={{ paddingTop: '1.2rem' }}>
                             <option value="donor">Donate Food</option>
                             <option value="requester">Request Food</option>
-                            <option value="admin">Administrator</option>
                         </select>
                         <label>I want to...</label>
                     </div>
