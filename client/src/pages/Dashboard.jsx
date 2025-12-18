@@ -57,23 +57,22 @@ const Dashboard = () => {
                 } catch (e) { console.error("Error fetching donors", e); }
 
                 try {
-                    // Fetch all donations for admin
-                    const resDonations = await axios.get('http://localhost:5000/api/donations', config);
+                    const resDonations = await axios.get(`${API_BASE_URL}/api/donations`, config);
                     setDonations(resDonations.data);
                 } catch (e) { console.error("Error fetching donations for admin", e); }
             } else {
                 // User Fetch
-                const resDonations = await axios.get('http://localhost:5000/api/donations', config);
+                const resDonations = await axios.get(`${API_BASE_URL}/api/donations`, config);
                 setDonations(resDonations.data);
 
-                const resRequests = await axios.get('http://localhost:5000/api/requests/my', config);
+                const resRequests = await axios.get(`${API_BASE_URL}/api/requests/my`, config);
                 setMyRequests(resRequests.data);
 
-                const resMyDonations = await axios.get('http://localhost:5000/api/donations/my', config);
+                const resMyDonations = await axios.get(`${API_BASE_URL}/api/donations/my`, config);
                 setMyDonations(resMyDonations.data);
 
                 if (storedUser && storedUser.role === 'donor') {
-                    const resIncoming = await axios.get('http://localhost:5000/api/requests/incoming', config);
+                    const resIncoming = await axios.get(`${API_BASE_URL}/api/requests/incoming`, config);
                     setIncomingRequests(resIncoming.data);
                 }
             }
@@ -99,10 +98,10 @@ const Dashboard = () => {
         try {
             const token = localStorage.getItem('token');
             const config = { headers: { 'x-auth-token': token } };
-            await axios.put(`http://localhost:5000/api/requests/${id}/status`, { status }, config);
+            await axios.put(`${API_BASE_URL}/api/requests/${id}/status`, { status }, config);
 
             // Refresh requests
-            const res = await axios.get('http://localhost:5000/api/requests', config);
+            const res = await axios.get(`${API_BASE_URL}/api/requests`, config);
             setAdminRequests(res.data);
             alert(`Request ${status} successfully!`);
         } catch (err) {
@@ -117,7 +116,7 @@ const Dashboard = () => {
             const config = { headers: { 'x-auth-token': token } };
 
             // 1. Create Request
-            const res = await axios.post('http://localhost:5000/api/requests', {
+            const res = await axios.post(`${API_BASE_URL}/api/requests`, {
                 food_type: donation.food_name,
                 preferred_time: 'ASAP',
                 urgency: 'High',
@@ -131,7 +130,7 @@ const Dashboard = () => {
             setChatData({ requestId: res.data._id, receiverId: donation.donor._id });
 
             // 3. Refresh Requests & Switch Tab
-            const resRequests = await axios.get('http://localhost:5000/api/requests/my', config);
+            const resRequests = await axios.get(`${API_BASE_URL}/api/requests/my`, config);
             setMyRequests(resRequests.data);
             setActiveTab('request');
 
@@ -145,7 +144,7 @@ const Dashboard = () => {
         if (!window.confirm("Are you sure you want to delete this request?")) return;
         try {
             const token = localStorage.getItem('token');
-            await axios.delete(`http://localhost:5000/api/requests/${id}`, { headers: { 'x-auth-token': token } });
+            await axios.delete(`${API_BASE_URL}/api/requests/${id}`, { headers: { 'x-auth-token': token } });
             setMyRequests(myRequests.filter(req => req._id !== id));
             setAdminRequests(adminRequests.filter(req => req._id !== id));
             alert("Request deleted successfully.");
@@ -159,7 +158,7 @@ const Dashboard = () => {
         if (!window.confirm("Are you sure you want to delete this donation?")) return;
         try {
             const token = localStorage.getItem('token');
-            await axios.delete(`http://localhost:5000/api/donations/${id}`, { headers: { 'x-auth-token': token } });
+            await axios.delete(`${API_BASE_URL}/api/donations/${id}`, { headers: { 'x-auth-token': token } });
             setDonations(donations.filter(d => d._id !== id));
             setMyDonations(myDonations.filter(d => d._id !== id));
             alert("Donation deleted successfully.");
@@ -173,7 +172,7 @@ const Dashboard = () => {
         if (!window.confirm("Are you sure you want to delete this user?")) return;
         try {
             const token = localStorage.getItem('token');
-            await axios.delete(`http://localhost:5000/api/admin/users/${id}`, { headers: { 'x-auth-token': token } });
+            await axios.delete(`${API_BASE_URL}/api/admin/users/${id}`, { headers: { 'x-auth-token': token } });
             setDonors(donors.filter(u => u._id !== id));
             alert("User deleted successfully.");
         } catch (err) {

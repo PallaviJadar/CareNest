@@ -16,7 +16,7 @@ const ChatBox = ({ requestId, receiverId, currentUserId, onClose }) => {
     const fetchMessages = async () => {
         try {
             const token = localStorage.getItem('token');
-            const res = await axios.get(`http://localhost:5000/api/messages/${requestId}`, {
+            const res = await axios.get(`${API_BASE_URL}/api/messages/${requestId}`, {
                 headers: { 'x-auth-token': token }
             });
             setMessages(res.data);
@@ -37,7 +37,7 @@ const ChatBox = ({ requestId, receiverId, currentUserId, onClose }) => {
         const markAsRead = async () => {
             try {
                 const token = localStorage.getItem('token');
-                await axios.put(`http://localhost:5000/api/messages/${requestId}/read`, {}, {
+                await axios.put(`${API_BASE_URL}/api/messages/${requestId}/read`, {}, {
                     headers: { 'x-auth-token': token }
                 });
             } catch (err) {
