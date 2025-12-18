@@ -1,5 +1,4 @@
-const API_BASE_URL = import.meta.env.PROD
-    ? 'https://food-redistribute.onrender.com' // Replace with your actual Render URL later
+    ?'https://carenest-57h8.onrender.com'
     : 'http://localhost:5000';
 
 export default API_BASE_URL;
