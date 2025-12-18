@@ -32,7 +32,8 @@ if (process.env.NODE_ENV === 'production') {
         index: false
     }));
 
-    app.get('(.*)', (req, res) => {
+    // For any other route, serve the index.html from the dist folder (SPA support)
+    app.use((req, res) => {
         res.sendFile(path.resolve(__dirname, '../client', 'dist', 'index.html'));
     });
 } else {
